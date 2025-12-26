@@ -30,7 +30,7 @@ clone_repo withastro astro 3757a212c01cee03b8e96e1e9697a187ae7cc290
 known_failures="$(cat script/known_failures.txt | sed '/^#/d')"
 
 # shellcheck disable=2046
-tree-sitter parse -q \
+npx tree-sitter parse -q \
 	"examples/**/*.astro" \
 	$(for failure in $known_failures; do echo "!${failure}"; done)
 
