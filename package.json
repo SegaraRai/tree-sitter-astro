@@ -9,6 +9,7 @@
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/virchau13/tree-sitter-astro.git"
@@ -20,12 +21,12 @@
   },
   "homepage": "https://github.com/virchau13/tree-sitter-astro#readme",
   "devDependencies": {
-    "eslint": "^8.44.0",
+    "eslint": "^9.39.2",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.26.3"
   },
   "dependencies": {
-    "nan": "^2.17.0",
+    "nan": "^2.24.0",
     "tree-sitter-html": "github:tree-sitter/tree-sitter-html"
   },
   "tree-sitter": [

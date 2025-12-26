@@ -1,0 +1,41 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "astro",
+      "camelcase": "Astro",
+      "title": "Astro",
+      "scope": "source.astro",
+      "file-types": [
+        "astro"
+      ],
+      "injection-regex": "^astro$",
+      "class-name": "TreeSitterAstro"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Astro grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "virchau13",
+        "url": "https://github.com/virchau13"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/virchau13/tree-sitter-astro",
+      "funding": ""
+    }
+  },
+  "bindings": {
+    "c": false,
+    "go": false,
+    "java": false,
+    "node": true,
+    "python": false,
+    "rust": true,
+    "swift": false,
+    "zig": false
+  }
+}

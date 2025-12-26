@@ -13,7 +13,7 @@
 
 const HTML = require('tree-sitter-html/grammar');
 
-module.exports = grammar(HTML, {
+export default grammar(HTML, {
     name: 'astro',
 
     externals: ($, original) => original.concat([
@@ -110,7 +110,7 @@ module.exports = grammar(HTML, {
             repeat($._node_with_permissible_text),
             alias($._html_interpolation_end, '}'),
         ),
-        
+
         // Astro supports self-closing script/style tags.
         self_closing_script_tag: $ => seq(
             '<',
@@ -125,7 +125,7 @@ module.exports = grammar(HTML, {
             repeat($.attribute),
             '/>'
         ),
-        
+
         script_element: ($, original) => choice(
             original,
             alias($.self_closing_script_tag, $.self_closing_tag),
