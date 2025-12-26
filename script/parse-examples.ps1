@@ -12,7 +12,7 @@ function Resolve-RepoRelativePath {
         throw "Failed to resolve relative path for: $Path"
     }
 
-    # Normalize to repo-relative, forward-slash paths (matches script/known_failures.txt)
+    # Normalize to repo-relative, forward-slash paths (matches script/expected_parse_failures.txt)
     $rel = $rel -replace '^\.\\', ''
     $rel = $rel -replace '^\./', ''
     $rel = $rel -replace '\\', '/'
@@ -28,13 +28,26 @@ if (-not (Test-Path 'examples/astro')) {
     exit 1
 }
 
-$knownFailures = Get-Content 'script/known_failures.txt' |
-    Where-Object { $_ -and ($_ -notmatch '^\s*#') } |
-    ForEach-Object { $_.Trim() } |
-    Where-Object { $_ }
+$expectedParseFailures = Get-Content 'script/expected_parse_failures.txt' |
+Where-Object { $_ -and ($_ -notmatch '^\s*#') } |
+ForEach-Object { $_.Trim() } |
+Where-Object { $_ }
+
+foreach ($failure in $expectedParseFailures) {
+    if (-not (Test-Path -LiteralPath $failure)) {
+        Write-Error "Outdated script/expected_parse_failures.txt entry does not exist: $failure"
+        exit 1
+    }
+
+    $null = & npx tree-sitter parse -q --grammar-path . $failure 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        Write-Error "Outdated script/expected_parse_failures.txt entry now parses successfully: $failure"
+        exit 1
+    }
+}
 
 $knownFailureSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
-foreach ($failure in $knownFailures) {
+foreach ($failure in $expectedParseFailures) {
     [void]$knownFailureSet.Add($failure)
 }
 

@@ -1,0 +1,9 @@
+# Expected parse failures in the Astro submodule.
+#
+# If a path here no longer exists, or starts parsing successfully, CI should fail
+# and this list must be updated.
+
+examples/astro/packages/astro/test/fixtures/ssr-prerender-chunks/src/pages/index.astro
+examples/astro/packages/language-tools/astro-check/test/fixture/fileWithWarnings.astro
+examples/astro/packages/language-tools/language-server/test/check/fixture/fileWithWarnings.astro
+examples/astro/packages/language-tools/language-server/test/fixture/cachingTest.astro
