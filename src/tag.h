@@ -293,6 +293,9 @@ static const TagType TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS[] = {
 };
 
 static TagType tag_type_for_name(const String *tag_name) {
+    if (tag_name->size == 0) {
+        return CUSTOM;
+    }
     for (int i = 0; i < 126; i++) {
         const TagMapEntry *entry = &TAG_TYPES_BY_TAG_NAME[i];
         if (
@@ -338,6 +341,9 @@ static inline bool tag_eq(const Tag *self, const Tag *other) {
     if (self->type == CUSTOM) {
         if (self->custom_tag_name.size != other->custom_tag_name.size) {
             return false;
+        }
+        if (self->custom_tag_name.size == 0) {
+            return true;
         }
         if (memcmp(
             self->custom_tag_name.contents,
