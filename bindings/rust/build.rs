@@ -14,6 +14,9 @@ fn main() {
             );
         };
         c_config.include(&wasm_headers);
+
+        // workaround for "rust-lld: error: duplicate symbol: __assert_fail"
+        c_config.define("NDEBUG", None);
     }
 
     let parser_path = src_dir.join("parser.c");
