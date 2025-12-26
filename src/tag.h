@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "extra.h"
+#include "wasm_extra.h"
 
 typedef enum {
     AREA,
