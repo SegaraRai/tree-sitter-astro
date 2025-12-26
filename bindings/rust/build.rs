@@ -14,6 +14,7 @@ fn main() {
             );
         };
         c_config.include(&wasm_headers);
+        c_config.define("NEED_WASM_EXTRA_H", None);
 
         // workaround for "rust-lld: error: duplicate symbol: __assert_fail"
         c_config.define("NDEBUG", None);
