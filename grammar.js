@@ -11,7 +11,7 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const HTML = require('tree-sitter-html/grammar');
+import HTML from 'tree-sitter-html/grammar.js';
 
 export default grammar(HTML, {
     name: 'astro',
@@ -85,7 +85,7 @@ export default grammar(HTML, {
         ),
 
         attribute: ($, original) => choice(
-            original,
+            ...(original ? [original] : []),
             seq(
                 $.attribute_name,
                 '=',
@@ -127,12 +127,12 @@ export default grammar(HTML, {
         ),
 
         script_element: ($, original) => choice(
-            original,
+            ...(original ? [original] : []),
             alias($.self_closing_script_tag, $.self_closing_tag),
         ),
 
         style_element: ($, original) => choice(
-            original,
+            ...(original ? [original] : []),
             alias($.self_closing_style_tag, $.self_closing_tag),
         ),
 

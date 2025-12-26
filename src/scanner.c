@@ -3,6 +3,8 @@
 
 #include <wctype.h>
 
+#include "extra.h"
+
 enum TokenType {
     START_TAG_NAME,
     SCRIPT_START_TAG_NAME,
@@ -111,8 +113,8 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
 
 static String scan_tag_name(TSLexer *lexer) {
     String tag_name = array_new();
-    while (iswalnum(lexer->lookahead) || 
-            lexer->lookahead == '-' || 
+    while (iswalnum(lexer->lookahead) ||
+            lexer->lookahead == '-' ||
             lexer->lookahead == ':' || lexer->lookahead == '.') {
         array_push(&tag_name, lexer->lookahead);
         advance(lexer);
@@ -151,13 +153,13 @@ static bool scan_comment(TSLexer *lexer) {
     return false;
 }
 
-enum RawTextEndType { 
+enum RawTextEndType {
     // corresponds to the ending delimiter "\n---"
-    EndFrontmatter, 
+    EndFrontmatter,
     // corresponds to the ending delimiter "}",
     // used for JS backtick strings and attribute interpolations.
     // we have to balance brackets with this one.
-    EndCurly 
+    EndCurly
 };
 
 static inline void scan_js_expr_with_delimiter(TSLexer *lexer, enum RawTextEndType end_type);
@@ -541,7 +543,7 @@ static bool scan_permissible_text(TSLexer *lexer) {
             // If none of the above conditions pass,
             // there's definitely text here.
             goto text_found;
-        } 
+        }
         advance(lexer);
 text_found:
         there_is_text = true;
@@ -597,13 +599,13 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                 advance(lexer);
                 return scan_comment(lexer);
             }
-            
+
             if (valid_symbols[IMPLICIT_END_TAG]) {
                 return scan_implicit_end_tag(scanner, lexer);
             }
 
             if (valid_symbols[PERMISSIBLE_TEXT]) {
-                bool invalid = 
+                bool invalid =
                     IS_ASCII_ALPHA(lexer->lookahead)
                     || lexer->lookahead == '/'
                     || lexer->lookahead == '?'

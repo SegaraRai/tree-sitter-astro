@@ -3,6 +3,8 @@
 
 #include <string.h>
 
+#include "extra.h"
+
 typedef enum {
     AREA,
     BASE,
@@ -365,9 +367,8 @@ static bool tag_can_contain(Tag *self, const Tag *other) {
             return child != DT && child != DD;
 
         case P:
-            for (int i = 0; i < sizeof(TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS) /
-                                    sizeof(TagType);
-                 i++) {
+            for (int i = 0; i < (int)(sizeof(TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS) /
+                                    sizeof(TagType)); i++) {
                 if (child == TAG_TYPES_NOT_ALLOWED_IN_PARAGRAPHS[i]) {
                     return false;
                 }

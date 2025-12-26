@@ -8,14 +8,17 @@ repository = "https://github.com/virchau13/tree-sitter-astro"
 edition = "2024"
 license = "MIT"
 build = "bindings/rust/build.rs"
-include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+include = ["grammar.js", "queries/*", "src/*", "tree-sitter.json", "LICENSE"]
 autoexamples = false
 
 [lib]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.26.3"
+tree-sitter-language = "0.1.6"
 
 [build-dependencies]
 cc = "1.0"
+
+[dev-dependencies]
+tree-sitter = "0.26.3"
