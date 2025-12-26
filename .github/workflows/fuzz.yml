@@ -5,12 +5,16 @@ on:
     branches:
       - "**"
     paths:
+      - src/parser.c
       - src/scanner.c
+      - src/tag.h
   push:
     branches:
       - "master"
     paths:
+      - src/parser.c
       - src/scanner.c
+      - src/tag.h
   workflow_dispatch:
 
 jobs:
