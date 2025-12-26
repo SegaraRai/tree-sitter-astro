@@ -28,6 +28,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          submodules: false
 
       - uses: tree-sitter/fuzz-action@v4
         with:

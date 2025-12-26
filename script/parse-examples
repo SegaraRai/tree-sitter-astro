@@ -1,44 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -eu
 
 cd "$(dirname "$0")/.."
 
-function clone_repo {
-	owner=$1
-	name=$2
-	sha=$3
+if command -v pwsh >/dev/null 2>&1; then
+	exec pwsh -NoProfile -File script/parse-examples.ps1
+fi
 
-	path=examples/$name
-	if [ ! -d "$path" ]; then
-		echo "Cloning $owner/$name"
-		git clone "https://github.com/$owner/$name" "$path"
-	fi
-
-	pushd "$path" >/dev/null
-	actual_sha=$(git rev-parse HEAD)
-	if [ "$actual_sha" != "$sha" ]; then
-		echo "Updating $owner/$name to $sha"
-		git fetch
-		git reset --hard "$sha"
-	fi
-	popd >/dev/null
-}
-
-clone_repo withastro astro 3757a212c01cee03b8e96e1e9697a187ae7cc290
-
-known_failures="$(cat script/known_failures.txt | sed '/^#/d')"
-
-# shellcheck disable=2046
-npx tree-sitter parse -q \
-	"examples/**/*.astro" \
-	$(for failure in $known_failures; do echo "!${failure}"; done)
-
-example_count=$(find examples -name "*.astro" | wc -l)
-failure_count=$(wc -w <<<"$known_failures")
-success_count=$((example_count - failure_count))
-success_percent=$(node <<<"console.log(100*${success_count}/${example_count})")
-
-printf \
-	"Successfully parsed %d of %d example files (%.1f%%)\n" \
-	"$success_count" "$example_count" "$success_percent"
+echo "pwsh not found. Install PowerShell (pwsh) or run script/parse-examples.ps1 directly." >&2
+exit 1

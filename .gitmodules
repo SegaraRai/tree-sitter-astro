@@ -1,0 +1,3 @@
+[submodule "examples/astro"]
+	path = examples/astro
+	url = https://github.com/withastro/astro

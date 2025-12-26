@@ -35,6 +35,7 @@ zig-out/
 
 # Example dirs
 /examples/*/
+!/examples/astro/
 
 # Grammar volatiles
 *.wasm
