@@ -22,4 +22,4 @@ jobs:
       - uses: tree-sitter/fuzz-action@v4
         with:
           directory: .
-          corpus: tests/corpus
+          corpus: test/corpus
