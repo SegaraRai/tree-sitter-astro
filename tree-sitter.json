@@ -24,8 +24,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/virchau13/tree-sitter-astro",
-      "funding": ""
+      "repository": "https://github.com/virchau13/tree-sitter-astro"
     }
   },
   "bindings": {

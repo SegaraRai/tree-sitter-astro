@@ -29,7 +29,7 @@
 use tree_sitter_language::LanguageFn;
 
 unsafe extern "C" {
-    fn tree_sitter_astro() -> *const ();
+    unsafe fn tree_sitter_astro() -> *const ();
 }
 
 /// The tree-sitter [`LanguageFn`][LanguageFn] for this grammar.

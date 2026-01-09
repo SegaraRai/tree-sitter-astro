@@ -13,13 +13,15 @@
     "url": "https://github.com/virchau13/tree-sitter-astro/issues"
   },
   "homepage": "https://github.com/virchau13/tree-sitter-astro#readme",
-  "main": "bindings/node",
-  "types": "bindings/node",
+  "main": "bindings/node/index.js",
+  "types": "bindings/node/index.d.ts",
   "exports": {
     ".": {
       "import": "./bindings/node/index.js",
       "types": "./bindings/node/index.d.ts"
-    }
+    },
+    "./wasm": "./tree-sitter-astro.wasm",
+    "./package.json": "./package.json"
   },
   "keywords": [
     "incremental",
@@ -40,16 +42,15 @@
   "dependencies": {
     "node-addon-api": "^8.2.2",
     "node-gyp-build": "^4.8.2",
-    "tree-sitter-html": "github:tree-sitter/tree-sitter-html"
+    "tree-sitter-html": "^0.23.2"
   },
   "devDependencies": {
     "eslint": "^9.39.2",
     "eslint-config-treesitter": "^1.0.2",
-    "tree-sitter": "^0.25.0",
     "tree-sitter-cli": "^0.26.3"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.25.0"
+    "tree-sitter": "^0.21.0 || ^0.25.0"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
