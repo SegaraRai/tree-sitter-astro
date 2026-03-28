@@ -7,7 +7,11 @@ fn main() {
         .include(src_dir)
         .flag_if_supported("-Wno-unused-value");
 
-    if std::env::var("TARGET").unwrap() == "wasm32-unknown-unknown" {
+    let target = std::env::var("TARGET").unwrap();
+    if target.contains("windows-msvc") {
+        c_config.flag("/utf-8");
+    }
+    if target == "wasm32-unknown-unknown" {
         let Ok(wasm_headers) = std::env::var("DEP_TREE_SITTER_LANGUAGE_WASM_HEADERS") else {
             panic!(
                 "Environment variable DEP_TREE_SITTER_LANGUAGE_WASM_HEADERS must be set by the language crate"
