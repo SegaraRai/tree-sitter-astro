@@ -48,7 +48,6 @@ export default grammar(HTML, {
       $.element,
       $.script_element,
       $.style_element,
-      $.nested_html_interpolation,
       $.permissible_text,
     ),
 
@@ -103,12 +102,6 @@ export default grammar(HTML, {
     ),
 
     html_interpolation: $ => seq(
-      alias($._html_interpolation_start, '{'),
-      repeat($._node_with_permissible_text),
-      alias($._html_interpolation_end, '}'),
-    ),
-
-    nested_html_interpolation: $ => seq(
       alias($._html_interpolation_start, '{'),
       repeat($._node_with_permissible_text),
       alias($._html_interpolation_end, '}'),

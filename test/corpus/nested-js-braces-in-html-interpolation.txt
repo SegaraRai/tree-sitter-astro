@@ -24,9 +24,6 @@ import { plural } from "lingui-for-astro/macro";
     (start_tag
       (tag_name))
     (html_interpolation
-      (permissible_text)
-      (nested_html_interpolation
-        (permissible_text))
       (permissible_text))
     (end_tag
       (tag_name))))

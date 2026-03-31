@@ -480,11 +480,17 @@ static bool scan_self_closing_tag_delimiter(Scanner *scanner, TSLexer *lexer) {
 
 static bool scan_permissible_text(TSLexer *lexer) {
     bool there_is_text = false;
+    unsigned curly_count = 0;
 
     while (lexer->lookahead != '\0') {
-        if(lexer->lookahead == '{' || lexer->lookahead == '}') {
-            // Start of interpolation / end of interpolation, break
-            break;
+        if(lexer->lookahead == '{') {
+            curly_count++;
+        } else if(lexer->lookahead == '}') {
+            if (curly_count == 0) {
+                // End of interpolation, break
+                break;
+            }
+            curly_count--;
         }
         if(lexer->lookahead == '\'' || lexer->lookahead == '"' || lexer->lookahead == '`') {
             // skip string
