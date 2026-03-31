@@ -18,7 +18,7 @@ Less than / greater than signs in HTML interpolations
       (tag_name))
     (html_interpolation
       (permissible_text)
-      (html_interpolation
+      (nested_html_interpolation
         (permissible_text))
       (permissible_text))
     (end_tag

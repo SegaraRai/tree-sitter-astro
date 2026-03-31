@@ -207,7 +207,42 @@
           "named": true
         },
         {
-          "type": "html_interpolation",
+          "type": "nested_html_interpolation",
+          "named": true
+        },
+        {
+          "type": "permissible_text",
+          "named": true
+        },
+        {
+          "type": "script_element",
+          "named": true
+        },
+        {
+          "type": "style_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nested_html_interpolation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "nested_html_interpolation",
           "named": true
         },
         {

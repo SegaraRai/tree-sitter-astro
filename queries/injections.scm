@@ -11,6 +11,10 @@
   (permissible_text) @injection.content
   (#set! injection.language "typescript"))
 
+(nested_html_interpolation
+  (permissible_text) @injection.content
+  (#set! injection.language "typescript"))
+
 (script_element
   (raw_text) @injection.content
   (#set! injection.language "typescript"))

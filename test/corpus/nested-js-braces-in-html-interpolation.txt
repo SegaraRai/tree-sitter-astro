@@ -1,0 +1,32 @@
+======================================
+Nested JS braces in HTML interpolation
+======================================
+
+---
+import { plural } from "lingui-for-astro/macro";
+---
+
+<p>
+  {
+    plural(3, {
+      one: "# Astro format sample",
+      other: "# Astro format samples",
+    })
+  }
+</p>
+
+--------------------------------------
+
+(document
+  (frontmatter
+    (frontmatter_js_block))
+  (element
+    (start_tag
+      (tag_name))
+    (html_interpolation
+      (permissible_text)
+      (nested_html_interpolation
+        (permissible_text))
+      (permissible_text))
+    (end_tag
+      (tag_name))))
