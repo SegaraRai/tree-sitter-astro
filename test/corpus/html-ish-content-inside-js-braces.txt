@@ -1,0 +1,34 @@
+================================================
+HTML-ish content inside nested JS braces in HTML interpolation
+================================================
+
+<div>
+  {
+    items.map((item) => ({
+      view: item.ok ? <span title={item.title ? t(item.title) : undefined}>{item.label}</span> : null,
+    }))
+  }
+</div>
+
+------------------------------------------------
+
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (html_interpolation
+      (permissible_text)
+      (element
+        (start_tag
+          (tag_name)
+          (attribute
+            (attribute_name)
+            (attribute_interpolation
+              (attribute_js_expr))))
+        (html_interpolation
+          (permissible_text))
+        (end_tag
+          (tag_name)))
+      (permissible_text))
+    (end_tag
+      (tag_name))))
