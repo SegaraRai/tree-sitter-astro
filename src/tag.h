@@ -154,6 +154,7 @@ typedef struct {
 typedef struct {
     TagType type;
     String custom_tag_name;
+    uint32_t interpolation_curly_count;
 } Tag;
 
 static const TagMapEntry TAG_TYPES_BY_TAG_NAME[126] = {
@@ -312,6 +313,7 @@ static inline Tag tag_new() {
     Tag tag;
     tag.type = END_;
     tag.custom_tag_name = (String) array_new();
+    tag.interpolation_curly_count = 0;
     return tag;
 }
 

@@ -36,6 +36,16 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
+static inline Tag *last_interpolation_tag(Scanner *scanner) {
+    for (unsigned i = scanner->tags.size; i > 0; i--) {
+        Tag *tag = &scanner->tags.contents[i - 1];
+        if (tag->type == INTERPOLATION) {
+            return tag;
+        }
+    }
+    return NULL;
+}
+
 static unsigned serialize(Scanner *scanner, char *buffer) {
     uint16_t tag_count = scanner->tags.size > UINT16_MAX ? UINT16_MAX : scanner->tags.size;
     uint16_t serialized_tag_count = 0;
@@ -58,6 +68,13 @@ static unsigned serialize(Scanner *scanner, char *buffer) {
             buffer[size++] = (char)name_length;
             strncpy(&buffer[size], tag.custom_tag_name.contents, name_length);
             size += name_length;
+        } else if (tag.type == INTERPOLATION) {
+            if (size + 1 + sizeof(tag.interpolation_curly_count) >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+                break;
+            }
+            buffer[size++] = (char)(uint8_t)tag.type;
+            memcpy(&buffer[size], &tag.interpolation_curly_count, sizeof(tag.interpolation_curly_count));
+            size += sizeof(tag.interpolation_curly_count);
         } else {
             if (size + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
                 break;
@@ -99,6 +116,9 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
                     tag.custom_tag_name.size = name_length;
                     memcpy(tag.custom_tag_name.contents, &buffer[size], name_length);
                     size += name_length;
+                } else if (tag.type == INTERPOLATION) {
+                    memcpy(&tag.interpolation_curly_count, &buffer[size], sizeof(tag.interpolation_curly_count));
+                    size += sizeof(tag.interpolation_curly_count);
                 }
                 array_push(&scanner->tags, tag);
             }
@@ -478,9 +498,10 @@ static bool scan_self_closing_tag_delimiter(Scanner *scanner, TSLexer *lexer) {
     return false;
 }
 
-static bool scan_permissible_text(TSLexer *lexer) {
+static bool scan_permissible_text(Scanner *scanner, TSLexer *lexer) {
     bool there_is_text = false;
-    unsigned curly_count = 0;
+    Tag *interpolation = last_interpolation_tag(scanner);
+    unsigned curly_count = interpolation ? interpolation->interpolation_curly_count : 0;
 
     while (lexer->lookahead != '\0') {
         if(lexer->lookahead == '{') {
@@ -562,6 +583,9 @@ text_found:
     // If there isn't any text,
     // then this can't be permissible text.
     if (there_is_text) {
+        if (interpolation) {
+            interpolation->interpolation_curly_count = curly_count;
+        }
         lexer->result_symbol = PERMISSIBLE_TEXT;
         return true;
     } else {
@@ -589,7 +613,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[PERMISSIBLE_TEXT]) {
         if(iswspace(lexer->lookahead)) {
             // Can't be anything else.
-            return scan_permissible_text(lexer);
+            return scan_permissible_text(scanner, lexer);
         }
     } else {
         while (iswspace(lexer->lookahead)) {
@@ -644,7 +668,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         case '{':
             if (valid_symbols[HTML_INTERPOLATION_START]) {
                 lexer->advance(lexer, false);
-                Tag tag = (Tag){INTERPOLATION, {0}};
+                Tag tag = tag_new();
+                tag.type = INTERPOLATION;
                 array_push(&scanner->tags, tag);
                 lexer->result_symbol = HTML_INTERPOLATION_START;
                 return true;
@@ -684,7 +709,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
     if (!definitely_not_permissible_text && valid_symbols[PERMISSIBLE_TEXT]) {
         // There are no other choices, it's this or nothing.
-        return scan_permissible_text(lexer);
+        return scan_permissible_text(scanner, lexer);
     }
 
     return false;
