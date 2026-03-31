@@ -559,7 +559,7 @@ static bool scan_permissible_text(Scanner *scanner, TSLexer *lexer) {
                 // Potential </end> tag
                 break;
             }
-            if (lexer->lookahead == '/' || lexer->lookahead == '?') {
+            if (lexer->lookahead == '?') {
                 // Potential <!-- comment --> tag
                 // or <!DOCTYPE ...> tag
                 // or <?xml processing instructions?> tag
