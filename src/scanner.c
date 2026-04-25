@@ -559,7 +559,7 @@ static bool scan_permissible_text(Scanner *scanner, TSLexer *lexer) {
                 // Potential </end> tag
                 break;
             }
-            if (lexer->lookahead == '?') {
+            if (lexer->lookahead == '!' || lexer->lookahead == '?') {
                 // Potential <!-- comment --> tag
                 // or <!DOCTYPE ...> tag
                 // or <?xml processing instructions?> tag
@@ -641,6 +641,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                 bool invalid =
                     IS_ASCII_ALPHA(lexer->lookahead)
                     || lexer->lookahead == '/'
+                    || lexer->lookahead == '!'
                     || lexer->lookahead == '?'
                     || lexer->lookahead == '>';
                 if (invalid) {

@@ -1,0 +1,55 @@
+====================
+HTML comment in interpolation
+====================
+
+{<!-- hidden --><div>visible</div>}
+
+--------------------
+
+(document
+  (html_interpolation
+    (comment)
+    (element
+      (start_tag
+        (tag_name))
+      (text)
+      (end_tag
+        (tag_name)))))
+
+====================
+HTML comment after permissible text in interpolation
+====================
+
+{foo<!-- hidden --><div>visible</div>}
+
+--------------------
+
+(document
+  (html_interpolation
+    (permissible_text)
+    (comment)
+    (element
+      (start_tag
+        (tag_name))
+      (text)
+      (end_tag
+        (tag_name)))))
+
+====================
+DOCTYPE after permissible text in interpolation
+====================
+
+{foo<!DOCTYPE html><div>visible</div>}
+
+--------------------
+
+(document
+  (html_interpolation
+    (permissible_text)
+    (doctype)
+    (element
+      (start_tag
+        (tag_name))
+      (text)
+      (end_tag
+        (tag_name)))))
