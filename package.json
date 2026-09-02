@@ -41,6 +41,7 @@
   ],
   "dependencies": {
     "node-addon-api": "^8.2.2",
+    "node-gyp": "^13.0.2",
     "node-gyp-build": "^4.8.2",
     "tree-sitter-html": "^0.23.2"
   },
@@ -77,5 +78,12 @@
     "tree-sitter@0.25.1": true,
     "tree-sitter-cli@0.27.0": true,
     "tree-sitter-html@0.23.2": true
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "download"
+    }
   }
 }
