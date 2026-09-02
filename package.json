@@ -78,12 +78,5 @@
     "tree-sitter@0.25.1": true,
     "tree-sitter-cli@0.27.0": true,
     "tree-sitter-html@0.23.2": true
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "npm",
-      "version": "12.0.2",
-      "onFail": "download"
-    }
   }
 }
